@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <AssemblyName>EffectInEffectPlugin</AssemblyName>
+    <RootNamespace>EffectInEffectPlugin</RootNamespace>
+    <Version>1.0.0</Version>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="YukkuriMovieMaker.Plugin">
+      <HintPath>C:\YMM4\YukkuriMovieMaker.Plugin.dll</HintPath>
+    </Reference>
+    <Reference Include="YukkuriMovieMaker.Controls">
+      <HintPath>C:\YMM4\YukkuriMovieMaker.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="Vortice.Direct2D1">
+      <HintPath>C:\YMM4\Vortice.Direct2D1.dll</HintPath>
+    </Reference>
+    <Reference Include="Vortice.DirectX">
+      <HintPath>C:\YMM4\Vortice.DirectX.dll</HintPath>
+    </Reference>
+    <Reference Include="Vortice.Mathematics">
+      <HintPath>C:\YMM4\Vortice.Mathematics.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpGen.Runtime">
+      <HintPath>C:\YMM4\SharpGen.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpGen.Runtime.COM">
+      <HintPath>C:\YMM4\SharpGen.Runtime.COM.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="DeltaMask.hlsl" />
+    <EmbeddedResource Include="DeltaMask.cso" />
+  </ItemGroup>
+
+  <!-- HLSLをfxcでコンパイルしてcsoを生成する -->
+  <Target Name="CompileDeltaMaskShader" BeforeTargets="BeforeBuild" Inputs="$(ProjectDir)DeltaMask.hlsl" Outputs="$(ProjectDir)DeltaMask.cso">
+    <Exec Command="&quot;C:\Program Files (x86)\Windows Kits\10\bin\10.0.28000.0\x64\fxc.exe&quot; /nologo /T ps_4_0 /E main /Fo &quot;$(ProjectDir)DeltaMask.cso&quot; &quot;$(ProjectDir)DeltaMask.hlsl&quot;" />
+  </Target>
+
+</Project>
